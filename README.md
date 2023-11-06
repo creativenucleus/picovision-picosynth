@@ -1,40 +1,41 @@
-# picovision-picosynth
+# PicoSynth library ad-hoc reference
 
-from picosynth import PicoSynth, Channel
+Audio functionality is supported by the [PicoSynth library](https://github.com/pimoroni/pimoroni-pico/tree/main/libraries/pico_synth) which allows you to create multiple voice channels with ADSR (attack decay sustain release) envelopes. It provides a similar set of functionality to the classic SID chip in the Commodore 64.
 
 ## picosynth.PicoSynth
 
-### Constructor
+### constructor
 
-synth = PicoSynth()
+### set_volume()
+
+### get_volume()
+
+### adjust_volume()
+
+### play_sample()
+
+#### argument: data (required)
+
+Play the provided 16-bit audio sample. data must point to a bytearray that contains 16-bit PCM data. The number of samples is retrieved from the array's length.
+
+### play()
+
+### stop()
+
+### channel()
+
+Returns a picosynth.Channel object, which can then be configured with voice, ADSR envelope, etc.
 
 ## picosynth.Channel
 
-### restore()
-
-### waveforms()
-### waveforms(waveforms)
-### frequency()
-### frequency(frequency)
-### volume()
-### volume(volume)
-### attack_duration()
-### attack_duration(duration)
-### decay_duration()
-### decay_duration(duration)
-### sustain_level()
-### sustain_level(level)
-### release_duration()
-### release_duration(duration)
-### pulse_width()
-### pulse_width(width)
-### trigger_attack()
-
-start the channel playing
-### trigger_release() # stop the channel playing
-### play_tone(frequency, volume=None, attack=None, release=None)
-
 ### configure()
+
+[ADSR explained here](https://github.com/pimoroni/pimoroni-pico/blob/b4451c3bdc06235a1358a5a8aabd008647ed9f8a/libraries/pico_synth/pico_synth.hpp#L18C1-L21C103)
+
+- Attack:  number of milliseconds it takes for a note to hit full volume
+- Decay:   number of milliseconds it takes for a note to settle to sustain volume
+- Sustain: percentage of full volume that the note sustains at (duration implied by other factors)
+- Release: number of milliseconds it takes for a note to reduce to zero volume after it has ended
 
 #### argument: waveforms (default: None)
 
@@ -53,54 +54,95 @@ These can be combined, e.g. Channel.SINE | Channel.TRIANGLE
 
 #### argument: volume (default: None)
 
+0.0 to 1.0
+
 #### argument: attack (default: None)
+
+0.0s to 65.5 (seconds)
 
 #### argument: decay (default: None)
 
+0.0s to 65.5 (seconds)
+
 #### argument: sustain (default: None)
+
+0.0 to 1.0
 
 #### argument: release (default: None)
 
+0.0s to 65.5 (seconds)
+
 #### argument: pulse_width (default: None)
 
+0.0 to 1.0
 
- { MP_ROM_QSTR(MP_QSTR___del__), MP_ROM_PTR(&Channel___del___obj) },
-    { MP_ROM_QSTR(MP_QSTR_configure), MP_ROM_PTR(&Channel_configure_obj) },
-    { MP_ROM_QSTR(MP_QSTR_restore), MP_ROM_PTR(&Channel_restore_obj) },
-    { MP_ROM_QSTR(MP_QSTR_waveforms), MP_ROM_PTR(&Channel_waveforms_obj) },
-    { MP_ROM_QSTR(MP_QSTR_frequency), MP_ROM_PTR(&Channel_frequency_obj) },
-    { MP_ROM_QSTR(MP_QSTR_volume), MP_ROM_PTR(&Channel_volume_obj) },
-    { MP_ROM_QSTR(MP_QSTR_attack_duration), MP_ROM_PTR(&Channel_attack_duration_obj) },
-    { MP_ROM_QSTR(MP_QSTR_decay_duration), MP_ROM_PTR(&Channel_decay_duration_obj) },
-    { MP_ROM_QSTR(MP_QSTR_sustain_level), MP_ROM_PTR(&Channel_sustain_level_obj) },
-    { MP_ROM_QSTR(MP_QSTR_release_duration), MP_ROM_PTR(&Channel_release_duration_obj) },
-    { MP_ROM_QSTR(MP_QSTR_pulse_width), MP_ROM_PTR(&Channel_pulse_width_obj) },
-    { MP_ROM_QSTR(MP_QSTR_trigger_attack), MP_ROM_PTR(&Channel_trigger_attack_obj) },
-    { MP_ROM_QSTR(MP_QSTR_trigger_release), MP_ROM_PTR(&Channel_trigger_release_obj) },
-    { MP_ROM_QSTR(MP_QSTR_play_tone), MP_ROM_PTR(&Channel_play_tone_obj) },
+### restore()
 
+### waveforms()
 
-self.channel = synth.channel(chIndex)
+### waveforms(waveforms)
 
-        # waveforms you can use are NOISE, SQUARE, SAW, TRIANGLE, SINE, or WAVE
-        # you can combine more than one, like this: waveforms=Channel.SQUARE | Channel.SAW,
-        self.channel.configure(**conf)
+### frequency()
 
+### frequency(frequency)
 
-    { MP_ROM_QSTR(MP_QSTR_NOISE), MP_ROM_INT(128) },
-    { MP_ROM_QSTR(MP_QSTR_SQUARE), MP_ROM_INT(64) },
-    { MP_ROM_QSTR(MP_QSTR_SAW), MP_ROM_INT(32) },
-    { MP_ROM_QSTR(MP_QSTR_TRIANGLE), MP_ROM_INT(16) },
-    { MP_ROM_QSTR(MP_QSTR_SINE), MP_ROM_INT(8) },
-    { MP_ROM_QSTR(MP_QSTR_WAVE), MP_ROM_INT(1) },
-};
+Frequency in Hz (0 to 65535). A4 is 440Hz.
 
-STATIC const mp_rom_map_elem_t PicoSynth_locals_dict_table[] = {
-    { MP_ROM_QSTR(MP_QSTR___del__), MP_ROM_PTR(&PicoSynth___del___obj) },
-    { MP_ROM_QSTR(MP_QSTR_set_volume), MP_ROM_PTR(&PicoSynth_set_volume_obj) },
-    { MP_ROM_QSTR(MP_QSTR_get_volume), MP_ROM_PTR(&PicoSynth_get_volume_obj) },
-    { MP_ROM_QSTR(MP_QSTR_adjust_volume), MP_ROM_PTR(&PicoSynth_adjust_volume_obj) },
-    { MP_ROM_QSTR(MP_QSTR_play_sample), MP_ROM_PTR(&PicoSynth_play_sample_obj) },
-    { MP_ROM_QSTR(MP_QSTR_play), MP_ROM_PTR(&PicoSynth_play_synth_obj) },
-    { MP_ROM_QSTR(MP_QSTR_stop), MP_ROM_PTR(&PicoSynth_stop_playing_obj) },
-    { MP_ROM_QSTR(MP_QSTR_channel), MP_ROM_PTR(&PicoSynth_synth_channel_obj) },
+### volume()
+
+### volume(volume)
+
+### attack_duration()
+
+### attack_duration(duration)
+
+### decay_duration()
+
+### decay_duration(duration)
+
+### sustain_level()
+
+### sustain_level(level)
+
+### release_duration()
+
+### release_duration(duration)
+
+### pulse_width()
+
+### pulse_width(width)
+
+### trigger_attack()
+
+Start the channel playing
+
+### trigger_release()
+
+Stop the channel playing
+
+### play_tone(...)
+
+#### argument: frequency (required)
+
+#### argument: volume (default: None)
+
+#### argument: attack (default: None)
+
+#### argument: release (default: None)
+
+## Examples
+
+### Minimal
+
+This will be a tone. Mind your ears if you're wearing headphones!
+```
+from picosynth import PicoSynth, Channel
+
+synth = PicoSynth()
+synth.play()
+
+channel = synth.channel(0)
+channel.configure(waveforms=Channel.SINE)
+channel.frequency(440)
+channel.trigger_attack()
+```
