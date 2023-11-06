@@ -146,3 +146,10 @@ channel.configure(waveforms=Channel.SINE)
 channel.frequency(440)
 channel.trigger_attack()
 ```
+
+## References
+
+- https://github.com/pimoroni/picovision/blob/main/modules/picosynth/picosynth.c
+- https://github.com/pimoroni/picovision/blob/main/modules/picosynth/picosynth.cpp
+- https://github.com/pimoroni/pimoroni-pico/blob/main/micropython/modules/cosmic_unicorn/README.md#audio
+- https://github.com/pimoroni/pimoroni-pico/blob/b4451c3bdc06235a1358a5a8aabd008647ed9f8a/micropython/examples/stellar_unicorn/numpy/eighties_super_computer.py#L93-L94
